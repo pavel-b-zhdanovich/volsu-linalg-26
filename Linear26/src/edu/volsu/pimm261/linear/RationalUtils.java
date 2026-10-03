@@ -51,8 +51,17 @@ public class RationalUtils {
 		return result;
 	}
 
+	// Лебедев Антон
 	public static Rational sum(Rational [] arr) {
-		return null; //TODO сумма всех элементов массива
+		Rational result = new Rational();
+		if(arr != null){
+			for(Rational elem : arr){
+				if (elem != null){
+					result = result.add(elem);
+				}
+			}
+		}
+		return result;
 	}
 
 	public static Rational min(Rational [] arr) {

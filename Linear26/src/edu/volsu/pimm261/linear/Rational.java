@@ -79,9 +79,12 @@ public boolean equals(Object that) {
 	return (this.numerator == _that.numerator)&&(this.denominator == _that.denominator);
 }
 
+// Лебедев Антон
 public Rational add(Rational that) {
-	//TODO Использовать приведение к общему знаменателю, чтобы избежать арифметических переполнений
-	return new Rational(this.numerator*this.denominator+that.numerator*that.denominator, this.denominator*that.denominator);
+	int new_denominator = Math.abs(this.denominator / gcd(this.denominator, that.denominator) * that.denominator);
+	int left_coef = new_denominator / this.denominator;
+	int right_coef = new_denominator / that.denominator;
+	return new Rational(this.numerator * left_coef + that.numerator * right_coef, new_denominator);
 }
 
 public Rational getOpposite(){
