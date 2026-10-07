@@ -120,8 +120,7 @@ public Object clone() {
 
 
 public boolean isZero() {
-	// TODO проверка на равенство нулю
-	return false; // TODO
-}
+    return this.numerator == 0;
+} // Тимур Иванов
 
 }
