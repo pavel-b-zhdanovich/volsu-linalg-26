@@ -24,7 +24,8 @@ public class RationalUtils {
 	}
 
 	public static Rational add(String s, String t) {
-		return null; //TODO
+		return new Rational(s).add(new Rational(t))
+		//TODO Татаров Никита
 	}
 
 	public static Rational diff(Rational s, Rational t) {

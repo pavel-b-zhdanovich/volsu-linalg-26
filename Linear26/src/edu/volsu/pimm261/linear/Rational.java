@@ -52,7 +52,11 @@ public float toFloat() {
 
 
 public Rational(String s) {
-	// TODO парсинг строкового представления дроби или целого числа
+	// Татаров Никита парсинг строкового представления дроби или целого числа
+	String[] parts = s.split("/");
+	numerator = Integer.parseInt(parts[0].trim());
+	denominator = (parts.length > 1) ? Integer.parseInt(parts[1].trim()) : 1;
+	reduce();
 }
 
 
