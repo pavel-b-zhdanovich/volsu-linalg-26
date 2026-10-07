@@ -104,9 +104,14 @@ public Rational getInverse() {
 	return new Rational(this.denominator, this.numerator);
 }
 
+//Штиглец Андрей  Rational div(Rational that)
 public Rational div(Rational that) {
-	// TODO частное
-	return null;
+	if (that == null)
+	{ 
+		throw new ArithmeticException("Division by Zero.");
+	}
+	return this.mult(that.getInverse());
+	
 }
 
 public int compareTo(Rational that) {

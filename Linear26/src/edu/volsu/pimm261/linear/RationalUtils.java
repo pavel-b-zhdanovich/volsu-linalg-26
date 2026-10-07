@@ -55,9 +55,11 @@ public class RationalUtils {
 		//TODO создать массив случайных чисел
 		return result;
 	}
-	
+	//Штиглец Андрей Rational[] getConstantArray(int n, Rational c) 
 	public static Rational[] getConstantArray(int n, Rational c) {
 		Rational[] result = new Rational[n];
+			for (int i = 0; i < n; i++);
+			{result [i] = c;}
 		//TODO создать массив, где каждый элемент равен с
 		return result;
 	}
