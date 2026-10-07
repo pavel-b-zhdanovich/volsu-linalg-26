@@ -1,5 +1,8 @@
 package src.edu.volsu.pimm261.linear;
 
+import java.math.BigInteger;
+import java.util.Random;
+
 public class RationalUtils {
 	
 	public static Integer rnd(Integer a, Integer b) {
@@ -50,8 +53,16 @@ public class RationalUtils {
     	return new Rational(numerator, denominator);
 	}
 
+	// Создание массива длины n со случайными числами | 01.10.26 | Бощенко Д.А.
 	public static Rational[] getRandomArray(int n) {
 		Rational[] result = new Rational[n];
+		Random rand = new Random();
+		int upperLimit = 100;
+
+		for(int i = 0; i < n; i++) {
+			result[i] = new Rational(rand.nextInt(upperLimit), rand.nextInt(upperLimit));
+		}
+
 		//TODO создать массив случайных чисел
 		return result;
 	}
@@ -84,29 +95,29 @@ public class RationalUtils {
 	}
 
 	public static Rational avg(Rational [] arr) {
-	if (arr == null || arr.length == 0)
-		throw new IllegalArgumentException("empty array");
+		if (arr == null || arr.length == 0)
+			throw new IllegalArgumentException("empty array");
 
-	// сумма считается через BigInteger, чтобы не ловить переполнение int
-	BigInteger num = BigInteger.ZERO;
-	BigInteger den = BigInteger.ONE;
-	for (Rational r : arr) {
-		BigInteger rn = BigInteger.valueOf(r.getNumerator());
-		BigInteger rd = BigInteger.valueOf(r.getDenominator());
-		num = num.multiply(rd).add(rn.multiply(den));
-		den = den.multiply(rd);
-		BigInteger g = num.gcd(den);   // den > 0, значит g >= 1
+		// сумма считается через BigInteger, чтобы не ловить переполнение int
+		BigInteger num = BigInteger.ZERO;
+		BigInteger den = BigInteger.ONE;
+		for (Rational r : arr) {
+			BigInteger rn = BigInteger.valueOf(r.getNumerator());
+			BigInteger rd = BigInteger.valueOf(r.getDenominator());
+			num = num.multiply(rd).add(rn.multiply(den));
+			den = den.multiply(rd);
+			BigInteger g = num.gcd(den);   // den > 0, значит g >= 1
+			num = num.divide(g);
+			den = den.divide(g);
+		}
+		// делим сумму на количество элементов
+		den = den.multiply(BigInteger.valueOf(arr.length));
+		BigInteger g = num.gcd(den);
 		num = num.divide(g);
 		den = den.divide(g);
-	}
-	// делим сумму на количество элементов
-	den = den.multiply(BigInteger.valueOf(arr.length));
-	BigInteger g = num.gcd(den);
-	num = num.divide(g);
-	den = den.divide(g);
 
-	return new Rational(num.intValueExact(), den.intValueExact());
-}
+		return new Rational(num.intValueExact(), den.intValueExact());
+	}
 
 	public static void sort(Rational [] arr) {
 		 //TODO сортировка массива на месте, не создавая нового массива
