@@ -91,8 +91,23 @@ public Rational getOpposite(){
 }
 
 public Rational diff(Rational that) {
-	// TODO разность
-	return null;
+	// a/b - c/d = (a*d - c*b)/(b*d).
+	long newNumerator = (long) this.numerator * that.denominator
+			- (long) that.numerator * this.denominator;
+	long newDenominator = (long) this.denominator * that.denominator;
+	//Иович Александр
+	
+	// Сокращаем дробь до преобразования в int.
+	long a = Math.abs(newNumerator);
+	long b = newDenominator;
+	while (b != 0) {
+		long remainder = a % b;
+		a = b;
+		b = remainder;
+	}
+
+	return new Rational(Math.toIntExact(newNumerator / a),
+			Math.toIntExact(newDenominator / a));
 }
 
 //Горох Алексей

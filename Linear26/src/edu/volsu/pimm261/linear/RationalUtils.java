@@ -1,5 +1,7 @@
 package src.edu.volsu.pimm261.linear;
 
+import java.math.BigInteger;
+
 public class RationalUtils {
 	
 	public static Integer rnd(Integer a, Integer b) {
@@ -109,7 +111,21 @@ public class RationalUtils {
 }
 
 	public static void sort(Rational [] arr) {
-		 //TODO сортировка массива на месте, не создавая нового массива
+		//Иович Александр
+		// Сортировка вставками по возрастанию, без нового массива.
+		for (int i = 1; i < arr.length; i++) {
+			Rational current = arr[i];
+			int j = i - 1;
+
+			// Знаменатели положительны: сравниваем крест-накрест.
+			while (j >= 0
+					&& (long) arr[j].getNumerator() * current.getDenominator()
+					> (long) current.getNumerator() * arr[j].getDenominator()) {
+				arr[j + 1] = arr[j];
+				j--;
+			}
+			arr[j + 1] = current;
+		}
 	}
 
 	public static boolean isZero(Rational [] arr) {
