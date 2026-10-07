@@ -19,8 +19,17 @@ public class RationalUtils {
 		// имеющее не более den_digits десятичных знаков в знаменателе
 	}
 
+	//Алексей Горох
 	public static Rational add(Rational s, Rational t) {
-		return null; //TODO
+		int numeratorS = s.getNumerator();
+		int denominatorS = s.getDenominator();
+		int numeratorT = t.getNumerator();
+		int denominatorT = t.getDenominator();
+
+		if(denominatorS == denominatorT){
+			return new Rational(numeratorS + numeratorT ,denominatorS);
+		}
+		return new Rational(numeratorS*denominatorT+numeratorT*denominatorS, denominatorS*denominatorT);
 	}
 
 	public static Rational add(String s, String t) {
