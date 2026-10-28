@@ -133,4 +133,90 @@ public class VectorSpace<T extends IField<T>> {
 		//TODO Создать вектор-константу (все координаты одинаковы
 		
 
+//TODO орт вектора над линейно упорядоченным полем (Бакланов Иван). 28.10.2026
+//TODO клонирование (Бакланов Иван). 28.10.2026
+/*
+ * Возвращает орт — вектор с длиной 1.
+ * toDouble — преобразование координаты T в double.
+ * fromDouble — создание координаты T из double.
+ * Вычисление приближённое, с точностью double.
+ */
+public VectorSpace<T> ort(
+        java.util.function.ToDoubleFunction<? super T> toDouble,
+        java.util.function.DoubleFunction<T> fromDouble) {
+
+    java.util.Objects.requireNonNull(toDouble, "Не задан toDouble");
+    java.util.Objects.requireNonNull(fromDouble, "Не задан fromDouble");
+
+    if (components == null) {
+        throw new IllegalStateException("Координаты не инициализированы");
+    }
+
+    final int size = components.size();
+    double length = 0.0;
+
+    for (int i = 0; i < size; i++) {
+        double coordinate = toDouble.applyAsDouble(components.get(i));
+        length = Math.hypot(length, coordinate);
+    }
+
+    if (length == 0.0) {
+        throw new ArithmeticException("У нулевого вектора нет орта");
+    }
+
+    if (!Double.isFinite(length)) {
+        throw new ArithmeticException(
+                "Длина вектора не представима конечным числом double"
+        );
+    }
+
+    ArrayList<T> result = new ArrayList<>(size);
+
+    for (int i = 0; i < size; i++) {
+        double coordinate = toDouble.applyAsDouble(components.get(i));
+        result.add(fromDouble.apply(coordinate / length));
+    }
+
+    return new VectorSpace<>(result);
+}
+
+/*
+ * Создаёт новый вектор с отдельным списком координат.
+ * Сами объекты координат не копируются.
+ * Подходит для неизменяемых элементов поля.
+ */
+@Override
+public VectorSpace<T> clone() {
+    if (components == null) {
+        throw new IllegalStateException("Координаты не инициализированы");
+    }
+
+    return new VectorSpace<>(new ArrayList<>(components));
+}
+
+/*
+ * Клонирование с копированием каждой координаты.
+ * Используется, если элементы поля могут изменяться.
+ * copyCoordinate должна возвращать независимую копию координаты.
+ */
+public VectorSpace<T> clone(
+        java.util.function.Function<? super T, ? extends T> copyCoordinate) {
+
+    java.util.Objects.requireNonNull(
+            copyCoordinate, "Не задан способ копирования координаты"
+    );
+
+    if (components == null) {
+        throw new IllegalStateException("Координаты не инициализированы");
+    }
+
+    final int size = components.size();
+    ArrayList<T> result = new ArrayList<>(size);
+
+    for (int i = 0; i < size; i++) {
+        result.add(copyCoordinate.apply(components.get(i)));
+    }
+
+    return new VectorSpace<>(result);
+}
 } 
