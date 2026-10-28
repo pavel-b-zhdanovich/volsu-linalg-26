@@ -131,6 +131,45 @@ public class VectorSpace<T extends IField<T>> {
 		//TODO Проверить, является ли вектор i-м базисным вектором (0<= i < dim)
 		//TODO Проверить, является ли вектор нулевым
 		//TODO Создать вектор-константу (все координаты одинаковы
-		
 
-} 
+
+ПАМБУХЧЯН АЙК
+	// Проверить, является ли вектор i-м базисным вектором (0 <= i < dim)
+// Базисный вектор: все координаты нулевые, кроме i-й, которая равна единице поля.
+public boolean isBasisVector(int i) {
+    if (i < 0 || i >= this.dimension) {
+        return false;
+    }
+    T zero = this.getAt(0).diff(this.getAt(0)); // ноль поля: x - x
+
+    for (int k = 0; k < this.dimension; k++) {
+        T x = this.getAt(k);
+        if (k == i) {
+            
+            boolean isNonZero    = !x.diff(zero).equals(zero);
+            boolean isIdempotent = x.mult(x).diff(x).equals(zero);
+            if (!isNonZero || !isIdempotent) {
+                return false;
+            }
+        } else {
+            // координата должна быть нулём поля
+            if (!x.diff(zero).equals(zero)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+// Проверить, является ли вектор нулевым
+// Все координаты равны нулю поля.
+public boolean isZeroVector() {
+    T zero = this.getAt(0).diff(this.getAt(0)); // ноль поля: x - x
+    for (int k = 0; k < this.dimension; k++) {
+        if (!this.getAt(k).diff(zero).equals(zero)) {
+            return false;
+        }
+    }
+    return true;
+}
+}
