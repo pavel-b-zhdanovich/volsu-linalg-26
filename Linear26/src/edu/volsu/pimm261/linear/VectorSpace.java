@@ -120,8 +120,8 @@ public class VectorSpace<T extends IField<T>> {
 		//TODO скалярное произведение векторов над линейно упорядоченным полем
 		return null;
 	}
-		//TODO норма вектора над линейно упорядоченным полем
-		//TODO длина вектора над линейно упорядоченным полем
+		//TODO норма вектора над линейно упорядоченным полем (Суровкин Никита)
+		//TODO длина вектора над линейно упорядоченным полем (Суровкин Никита)
 		//TODO орт вектора над линейно упорядоченным полем
 		//TODO клонирование
 		//TODO Найти первую ненулевую координату вектора, начиная с номера i
@@ -132,5 +132,84 @@ public class VectorSpace<T extends IField<T>> {
 		//TODO Проверить, является ли вектор нулевым
 		//TODO Создать вектор-константу (все координаты одинаковы
 		
+		
+
+
+		
+		//++++++++++++++TODO норма вектора над линейно упорядоченным полем (Суровкин Никита)
+		//++++++++++++++TODO длина вектора над линейно упорядоченным полем (Суровкин Никита)
+		/**
+		 * Сумма квадратов координат:
+		 * N(v) = v[0]^2 + v[1]^2 + ... + v[n - 1]^2.
+		 *
+		 * Результат остаётся элементом поля T.
+		 */
+		public static <T extends IField<T> & Comparable<T>>
+		T norm(VectorSpace<T> vector) {
+			if (vector == null || vector.components == null) {
+				throw new IllegalArgumentException(
+						"Вектор должен быть создан и заполнен"
+				);
+			}
+
+			final int size = vector.components.size();
+
+			if (size == 0) {
+				// Без интерфейса IField неизвестно,
+				// как создать нулевой элемент типа T.
+				throw new IllegalArgumentException(
+						"Для этого метода требуется непустой вектор"
+				);
+			}
+
+			T coordinate = vector.components.get(0);
+			T result = coordinate.mult(coordinate);
+
+			for (int i = 1; i < size; i++) {
+				coordinate = vector.components.get(i);
+				result = result.add(coordinate.mult(coordinate));
+			}
+
+			return result;
+		}
+
+		/**
+		 * Евклидова длина вектора.
+		 *
+		 * toDouble задаёт преобразование координаты T в double.
+		 * Math.hypot устойчив к промежуточному переполнению
+		 * при вычислении суммы квадратов.
+		 */
+		public static <T extends IField<T> & Comparable<T>>
+		double length(
+				VectorSpace<T> vector,
+				ToDoubleFunction<? super T> toDouble) {
+
+			if (vector == null || vector.components == null) {
+				throw new IllegalArgumentException(
+						"Вектор должен быть создан и заполнен"
+				);
+			}
+
+			if (toDouble == null) {
+				throw new IllegalArgumentException(
+						"Нужно указать преобразование координаты в double"
+				);
+			}
+
+			final int size = vector.components.size();
+			double result = 0.0;
+
+			for (int i = 0; i < size; i++) {
+				double coordinate =
+						toDouble.applyAsDouble(vector.components.get(i));
+
+				result = Math.hypot(result, coordinate);
+			}
+
+			return result;
+		}
+
+		// ================= Остальные задания =================
 
 } 
