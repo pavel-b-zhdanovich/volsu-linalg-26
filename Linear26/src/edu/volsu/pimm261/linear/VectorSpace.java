@@ -130,7 +130,30 @@ public class VectorSpace<T extends IField<T>> {
 		//TODO Проверить, все ли координаты вектора неотрицательны
 		//TODO Проверить, является ли вектор i-м базисным вектором (0<= i < dim)
 		//TODO Проверить, является ли вектор нулевым
-		//TODO Создать вектор-константу (все координаты одинаковы
+		//TODO Создать вектор-константу (все координаты одинаковы (Иович Александр)
 		
 
+
+
+
+//TODO Создать вектор-константу (все координаты одинаковы (выполнил Иович Александр)
+		public static <T extends IField<T>> VectorSpace<T> constant(
+		int dimension, T value) {
+
+		if (dimension < 0) {
+		throw new IllegalArgumentException(
+		"Размерность не может быть отрицательной"
+		);
+		}
+
+		java.util.Objects.requireNonNull(value, "Координата не может быть null");
+
+		ArrayList<T> coordinates = new ArrayList<>(dimension);
+
+		for (int i = 0; i < dimension; i++) {
+		coordinates.add(value);
+		}
+
+		return new VectorSpace<>(coordinates);
+		}
 } 
