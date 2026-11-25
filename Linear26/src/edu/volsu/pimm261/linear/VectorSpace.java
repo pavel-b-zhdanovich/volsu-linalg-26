@@ -3,6 +3,8 @@ package src.edu.volsu.pimm261.linear;
 import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class VectorSpace<T extends IField<T>> {
 	protected ArrayList<T> components;
@@ -264,7 +266,62 @@ public boolean isZero() {
 	}
 	
 		//TODO Проверка двух векторов на навенство
-		//TODO Получить из данного вектора новый вектор с переставленными i-й и j-й координатами
+		//TODO Получить из данного вектора новый вектор с переставленными i-й и j-й координатами - Иванов Тимур (задание на паре)
+public class Main {
+
+    
+    public static double[] swap(double[] vector, int i, int j) {
+        if (vector == null) {
+            throw new IllegalArgumentException("Вектор не может быть null");
+        }
+        if (i < 0 || j < 0 || i >= vector.length || j >= vector.length) {
+            throw new IndexOutOfBoundsException(
+                    "Индексы должны быть в диапазоне [0, " + (vector.length - 1) + "]"
+            );
+        }
+
+        double[] result = Arrays.copyOf(vector, vector.length);
+        double temp = result[i];
+        result[i] = result[j];
+        result[j] = temp;
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Введите размерность вектора: ");
+        int n = scanner.nextInt();
+        if (n <= 0) {
+            System.out.println("Размерность должна быть положительной.");
+            return;
+        }
+
+        double[] vector = new double[n];
+        System.out.println("Введите " + n + " координат(ы) вектора:");
+        for (int k = 0; k < n; k++) {
+            vector[k] = scanner.nextDouble();
+        }
+
+        System.out.print("Введите индекс i (от 0 до " + (n - 1) + "): ");
+        int i = scanner.nextInt();
+        System.out.print("Введите индекс j (от 0 до " + (n - 1) + "): ");
+        int j = scanner.nextInt();
+
+        try {
+            double[] swapped = swap(vector, i, j);
+
+            System.out.println("Исходный вектор: " + Arrays.toString(vector));
+            System.out.println("Новый вектор: " + Arrays.toString(swapped));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+}
+
+
 		//TODO Проверить, все ли координаты вектора неотрицательны
 		//TODO Проверить, является ли вектор i-м базисным вектором (0<= i < dimension)
 		//TODO Проверить, является ли вектор нулевым
