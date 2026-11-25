@@ -11,33 +11,33 @@ public class VectorSpace<T extends IField<T>> {
 	public T getAt(Integer i) {
 		return this.components.get(i);
 	}
-	
+
 	interface ImyAction<T>{
 		public T getValue(Integer i);
 	}
-	
-	
+
+
 	public VectorSpace<T> buildVectorOld (ImyAction<T> action){
 		ArrayList<T> arr = new ArrayList<T>(dimension);
-		for (int i = 0; i < dimension; i++) 
+		for (int i = 0; i < dimension; i++)
 			arr.add( action.getValue(i) );
-		return new VectorSpace<T>(arr);	
+		return new VectorSpace<T>(arr);
 	}
-	
+
 	public VectorSpace<T> buildVector ( IntFunction<T> action){
 		ArrayList<T> arr = new ArrayList<T>(dimension);
-		for (int i = 0; i < dimension; i++) 
+		for (int i = 0; i < dimension; i++)
 			arr.add( action.apply(i) );
-		return new VectorSpace<T>(arr);	
+		return new VectorSpace<T>(arr);
 	}
-	
+
 	public VectorSpace<T> add1 (VectorSpace<T> that){
 		ArrayList<T> arr = new ArrayList<T>(dimension);
-		for (int i = 0; i < dimension; i++) 
+		for (int i = 0; i < dimension; i++)
 			arr.add(this.getAt(i).add(that.getAt(i)));
-		return new VectorSpace<T>(arr);	
+		return new VectorSpace<T>(arr);
 	}
-	
+
 	public VectorSpace<T> add2 (VectorSpace<T> that){
 		class MyAction implements ImyAction<T>{
 			@Override
@@ -47,7 +47,7 @@ public class VectorSpace<T extends IField<T>> {
 		}
 		return buildVectorOld( new MyAction());
 	}
-	
+
 	public VectorSpace<T> add3(VectorSpace<T> that){
 		ImyAction<T> myAction = new ImyAction<T>(){
 			public T getValue(Integer i) {
@@ -56,70 +56,70 @@ public class VectorSpace<T extends IField<T>> {
 		};
 		return buildVectorOld(myAction);
 	}
-	
+
 	public VectorSpace<T> add4(VectorSpace<T> that){
 		ImyAction<T> myAction = i -> getAt(i).add(that.getAt(i));
 		return buildVectorOld(myAction);
 	}
-	
+
 	public VectorSpace<T> add(VectorSpace<T> that){
 		return buildVector(i -> getAt(i).add(that.getAt(i)));
 	}
-	
+
 	public VectorSpace<T> getOpposite1() {
 		ArrayList<T> arr = new ArrayList<T>(dimension);
-		for (int i = 0; i < dimension; i++) 
+		for (int i = 0; i < dimension; i++)
 			arr.add(this.getAt(i).getOpposite());
 		return new VectorSpace<T>(arr);
 	}
-	
+
 	public VectorSpace<T> getOpposite() {
 		return buildVector(i -> this.getAt(i).getOpposite());
 	}
-	
+
 	public VectorSpace<T> diff1(VectorSpace<T> that) {
 		ArrayList<T> arr = new ArrayList<T>(dimension);
-		for (int i = 0; i < dimension; i++) 
+		for (int i = 0; i < dimension; i++)
 			arr.add(this.getAt(i).diff(that.getAt(i)));
 		return new VectorSpace<T>(arr);
 	}
-	
+
 	public VectorSpace<T> diff(VectorSpace<T> that) {
 		return buildVector(i ->this.getAt(i).diff(that.getAt(i)));
 	}
-	
+
 	public VectorSpace<T> multBy(T quotient) {
 //		ArrayList<T> arr = new ArrayList<T>(dimension);
-//		for (int i = 0; i < dimension; i++) 
+//		for (int i = 0; i < dimension; i++)
 //			arr.add(this.getAt(i).mult(quotient));
 //		return new VectorSpace<T>(arr);
-	
+
 		return buildVector(i -> this.getAt(i).mult(quotient));
 	}
-	
+
 	public Integer getDimension() {
 		return this.dimension;
 	}
-	
-	
-	protected VectorSpace (ArrayList<T> arr) {						
+
+
+	protected VectorSpace (ArrayList<T> arr) {
 		this.components = arr;
 		this.dimension = arr.size();
 }
 
-	
 
-//+++++++++++++++++++++++++++++++++++++++++++ Контрольная работа ++++++++++++++++++++++++++++	
+
+//+++++++++++++++++++++++++++++++++++++++++++ Контрольная работа ++++++++++++++++++++++++++++
 	public VectorSpace(String str, Function<String,T> parser ) {
 		String[] parts = str.split(";");
 		this.dimension = parts.length;
-	
+
 		components = new ArrayList<T>(this.dimension);
 		for (int i = 0; i < this.dimension; i++) {
 			this.components.add(parser.apply(parts[i]));
 		}
 	}
-	
+
 	public String toString() {
 		String st="";
 		int d = dimension-1;
@@ -128,10 +128,10 @@ public class VectorSpace<T extends IField<T>> {
 		}
 		return st+this.components.get(d);
 	}
-	
+
 	public static <T extends IField<T> & Comparable<T>> T scalarProduct(VectorSpace<T> v1, VectorSpace<T> v2){
-	
-		int v1Dimm = v1.getDimension(); 
+
+		int v1Dimm = v1.getDimension();
 		int v2Dimm = v2.getDimension();
 		if (v1Dimm != v2Dimm) {
 			System.err.println("W -- Vectors of different dimensions!");
@@ -155,7 +155,7 @@ public boolean isZero() {
 	}
 	return true;
 }
-		
+
 	//++++++++++++++TODO длина вектора над линейно упорядоченным полем (Суровкин Никита)
 			/**
 			 * Сумма квадратов координат:
@@ -191,13 +191,13 @@ public boolean isZero() {
 
 				return result;
 			}
-//TODO Проверить, все ли координаты вектора неотрицательны, Татаров Никита
-			public <U extends T & Comparable<T>> boolean isNonNegative() {
-	for (T c : components) {
-		if (((U) c).compareTo(c.getZero()) < 0) return false;
+	//TODO Проверить, все ли координаты вектора неотрицательны, Татаров Никита
+	public static <T extends IField<T> & Comparable<T>> boolean isNonNegative(VectorSpace<T> v) {
+	    for (int i = 0; i < v.getDimension(); i++) {
+
+		}
 	}
-	return true;
-}
+
 			/**
 			 * Евклидова длина вектора.
 			 *
@@ -234,11 +234,11 @@ public boolean isZero() {
 //
 //				return result;
 //			}
-	
-	
+
+
 		//TODO клонирование
-	
-	
+
+
 	//TODO Найти первую ненулевую координату вектора, начиная с номера i
 	//Горох Алексей
 	public Integer firstNotZeroCoordSinceNumberI(int i){
@@ -262,14 +262,22 @@ public boolean isZero() {
 		}
 		return null;
 	}
-	
+
 		//TODO Проверка двух векторов на навенство
-		//TODO Получить из данного вектора новый вектор с переставленными i-й и j-й координатами
-		//TODO Проверить, все ли координаты вектора неотрицательны
-		//TODO Проверить, является ли вектор i-м базисным вектором (0<= i < dimension)
+		//TODO Получить из данного вектора новый вектор с переставленными i-й и j-й координатами _Иванов
+		//TODO Проверить, все ли координаты вектора неотрицательны _Горох
+		//TODO Проверить, является ли вектор i-м базисным вектором (0<= i < dimension) _Памбухчян
 		//TODO Проверить, является ли вектор нулевым
-		//TODO Создать вектор-константу (все координаты одинаковы)
-		
+
+	//TODO Создать вектор-константу (все координаты одинаковы) | Бощенко Д.А. 2026-11-25
+	public VectorSpace<T> getConstantVector(T value) {
+		ArrayList<T> arr = new ArrayList<>(dimension);
+		for (int i = 0; i < dimension; i++) {
+		    arr.add(value);
+		}
+		return new VectorSpace<T>(arr);
+	}
+
 		//TODO Прибавить к i-й координате j-ю координату, умноженную на элемент поля (Суровкин Никита)
 		public VectorSpace<T> addCoordinate(int i, int j, T coefficient) {
 			ArrayList<T> arr = new ArrayList<T>(components);
@@ -277,10 +285,10 @@ public boolean isZero() {
 			return new VectorSpace<T>(arr);
 		}
 
-		//TODO Дан массив A векторов одной фиксированной размерности и массив C элементов поля. 
+		//TODO Дан массив A векторов одной фиксированной размерности и массив C элементов поля.
 			//Размерности A и С совпадают. Найти линейную комбинацию векторов из A со скалярами из C.
 		//TODO Создать i-й базисный вектор (у которого на i-м месте стоит 1, а на остальных - нули)
-			
-		
 
-} 
+
+
+}

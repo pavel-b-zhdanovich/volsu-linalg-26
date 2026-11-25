@@ -1,14 +1,11 @@
 package src.edu.volsu.pimm261.linear;
 import java.math.BigInteger;
 
-import java.math.BigInteger;
-
-import java.math.BigInteger;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RationalUtils {
-	
+
 
 	public static Rational getRandom1(Integer a, Integer b, Integer den_digits) {
 		//Бакланов Иван
@@ -43,22 +40,22 @@ public class RationalUtils {
 public static Integer rnd(Integer a, Integer b) {
 		return Math.round((float)(Math.random()*(b-a)+a));
 	}
-	
+
 
 public static Rational getRandom(Integer a, Integer b, Integer den_digits) {
 		Integer l = Math.round((float)Math.pow(10, den_digits-1));
 		Integer r = l*10-1;
 		Integer q = rnd(l,r);
 		return new Rational(rnd(a*q, b*q),q);
-		
+
 		// a <= p/q <=b
 		// aq <= p <= bq
-		// 
+		//
 		// TODO Создать случайное рациональное число a <= q <= b,
 		// имеющее не более den_digits десятичных знаков в знаменателе
 	}
 
-	
+
 	//Алексей Горох
 	public static Rational add(Rational s, Rational t) {
 		int numeratorS = s.getNumerator();
@@ -83,7 +80,7 @@ public static Rational getRandom(Integer a, Integer b, Integer den_digits) {
 		int denominator = s.getDenominator() * t.getDenominator();
 		return new Rational(numerator, denominator);
 	}
-	
+
 	//Горох Алексей
 	public static Rational mult(Rational s, Rational t) {
 		return s.mult(t);
@@ -114,7 +111,7 @@ public static Rational getRandom(Integer a, Integer b, Integer den_digits) {
 		//TODO создать массив случайных чисел
 		return result;
 	}
-	//Штиглец Андрей Rational[] getConstantArray(int n, Rational c) 
+	//Штиглец Андрей Rational[] getConstantArray(int n, Rational c)
 	public static Rational[] getConstantArray(int n, Rational c) {
 		Rational[] result = new Rational[n];
 			for (int i = 0; i < n; i++)
@@ -201,5 +198,5 @@ public static Rational getRandom(Integer a, Integer b, Integer den_digits) {
     return true;
  	} // Тимур Иванов, конец
 
-	
+
 }
