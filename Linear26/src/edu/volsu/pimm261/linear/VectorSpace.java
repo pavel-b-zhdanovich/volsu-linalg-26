@@ -3,6 +3,7 @@ package src.edu.volsu.pimm261.linear;
 import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.Scanner;
 
 public class VectorSpace<T extends IField<T>> {
 	protected ArrayList<T> components;
@@ -263,7 +264,38 @@ public boolean isZero() {
 		return null;
 	}
 	
-		//TODO Проверка двух векторов на навенство
+		//TODO Проверка двух векторов на навенство - Тимур Иванов
+
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        double x1, y1, z1, x2, y2, z2;
+
+        System.out.println("Введите координаты первого вектора. Если вектор двухмерный - третьим числом введите 0");
+        x1 = sc.nextDouble();
+        y1 = sc.nextDouble();
+        z1 = sc.nextDouble();
+
+        System.out.println("Введите координаты второго вектора. Если вектор двухмерный - третьим числом введите 0");
+        x2 = sc.nextDouble();
+        y2 = sc.nextDouble();
+        z2 = sc.nextDouble();
+
+        if (x1 == x2 && y1 == y2 && z1 == z2) {
+            System.out.println("Векторы равны");
+        } else {
+            System.out.println("Векторы не равны или вы ввели нелегитимный вектор");
+        }
+
+        sc.close();
+    }
+}
+
+
+	
 		//TODO Получить из данного вектора новый вектор с переставленными i-й и j-й координатами
 		//TODO Проверить, все ли координаты вектора неотрицательны
 		//TODO Проверить, является ли вектор i-м базисным вектором (0<= i < dimension)
