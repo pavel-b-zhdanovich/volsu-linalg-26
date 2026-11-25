@@ -280,6 +280,16 @@ public boolean isZero() {
 		//TODO Дан массив A векторов одной фиксированной размерности и массив C элементов поля. 
 			//Размерности A и С совпадают. Найти линейную комбинацию векторов из A со скалярами из C.
 		//TODO Создать i-й базисный вектор (у которого на i-м месте стоит 1, а на остальных - нули)
+	public static <T extends IField<T>> VectorSpace<T> basis(int n, int i, T unit){
+		if (n <= 0 || i < 0 || i >= n){
+			throw new IllegalArgumentExcexption("Нужно 0 <= i < n");
+		}
+		ArrayList<T> arr =new ArrayList<t>(n);
+		for (int k = 0; k < n; k++){
+			arr.add((k==1) ? unit.getUnit() : unit.getZero());
+		}
+		return new VectorSpace<T>(arr);
+	}
 			
 		
 
